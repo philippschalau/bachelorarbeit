@@ -8,7 +8,6 @@ import TextModuleList from "./components/TextModuleList";
 import {Box, Divider, Drawer, List, Toolbar} from "@mui/material";
 
 
-
 function CreateDocument() {
     const [userData, setUserData] = useState<UserData[]>([]);
     const [textModule, setTextModule] = useState<TextModule[]>([]);
@@ -45,12 +44,13 @@ function CreateDocument() {
                 variant="permanent"
                 anchor="left"
             >
-                <Toolbar />
-                <Divider />
+                <Toolbar/>
+                <Divider/>
                 <List>
-                    <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', margin: '30px'}}>
+                    <Box
+                        sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', margin: '30px'}}>
                         <UserDataList userData={userData}/>
-                        <TextModuleList textModules={textModule} />
+                        <TextModuleList textModules={textModule}/>
                     </Box>
                 </List>
             </Drawer>
