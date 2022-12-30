@@ -3,10 +3,10 @@ import Link from "next/link";
 
 
 
-function Header() {
+function DocumentHeader() {
     return (
         <div>
-            <AppBar position="static" sx={{ background: '#76B900'}}>
+            <AppBar position="relative" sx={{ background: '#76B900', zIndex:'1201'}}>
                 <Toolbar>
                     <Link href="/" passHref style={{marginRight:'60px'}}>
                         <Button variant="text" size="large" disableRipple={true} sx={{ background: '#76B900', color:'white', fontWeight: 'bold' }}>Daten</Button>
@@ -20,4 +20,4 @@ function Header() {
     );
 }
 
-export default Header;
+export default DocumentHeader;
