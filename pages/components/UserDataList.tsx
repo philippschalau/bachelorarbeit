@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import {UserData} from "../api/userdata";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {Box, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
 
 
@@ -11,7 +11,7 @@ type Props = {
 
 const UserDataList: NextPage<Props> = ({ userData }) => {
   return (
-      <div>
+      <Box>
           <FormControl sx={{minWidth: 300, marginBottom: 10}}>
               <InputLabel id="demo-simple-select-label">User</InputLabel>
               <Select
@@ -24,7 +24,7 @@ const UserDataList: NextPage<Props> = ({ userData }) => {
                   ))}
               </Select>
           </FormControl>
-      </div>
+      </Box>
   );
 };
 

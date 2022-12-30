@@ -1,11 +1,14 @@
-import Header from './components/Header'
+import Header from './components/DocumentHeader'
+import {Box} from "@mui/material";
+
+
 
 
 function Home() {
     return (
-        <div>
+        <Box>
             <Header/>
-        </div>
+        </Box>
     );
 }
 
