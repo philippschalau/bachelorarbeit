@@ -1,4 +1,4 @@
-import Header from './components/DocumentHeader'
+import Header from './components/Header'
 import PostUserData from "./components/postUserData";
 import PostTextModule from "./components/postTextModule";
 import {Box, Toolbar} from "@mui/material";

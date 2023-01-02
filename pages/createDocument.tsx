@@ -1,4 +1,4 @@
-import DocumentHeader from './components/DocumentHeader'
+import Header from './components/Header'
 import UserDataList from "./components/UserDataList";
 import {UserData} from "./api/userdata";
 import {TextModule} from "./api/textmodule";
@@ -31,7 +31,7 @@ function CreateDocument() {
     const drawerWidth = 400;
     return (
         <Box>
-            <DocumentHeader/>
+            <Header/>
             <Drawer
                 sx={{
                     width: drawerWidth,

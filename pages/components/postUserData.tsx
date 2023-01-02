@@ -22,7 +22,6 @@ function PostUserData() {
             zip: zip
         };
         const json = JSON.stringify(data);
-        console.log(typeof json)
         const customConfig = {
             headers: {
                 'Content-Type': 'application/json'

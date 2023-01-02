@@ -13,7 +13,6 @@ function PostTextModule() {
             content: content,
         };
         const json = JSON.stringify(data);
-        console.log(typeof json)
         const customConfig = {
             headers: {
                 'Content-Type': 'application/json'
