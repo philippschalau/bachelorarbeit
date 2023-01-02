@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaClient } from '@prisma/client';
+import type {NextApiRequest, NextApiResponse} from 'next'
+import {PrismaClient} from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -20,7 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.json(userData);
         } else if (req.method === 'POST') {
             const userData: UserData = req.body;
-            await prisma.userData.create({ data: userData });
+            await prisma.userData.create({data: userData});
             res.status(201).end();
         }
     } catch (error) {
