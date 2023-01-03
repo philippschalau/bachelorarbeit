@@ -1,6 +1,7 @@
 import {NextPage} from 'next';
 import {TextModule} from "../api/textmodule";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
+import React, {useState} from "react";
 
 
 type Props = {
@@ -8,21 +9,25 @@ type Props = {
 };
 
 const TextModuleList: NextPage<Props> = ({textModules}) => {
+    const [content, setContent] = useState<string>('');
+    const handleChange = (event: SelectChangeEvent) => {
+        setContent(event.target.value as string);
+    };
     return (
-        <div>
+        <Box>
             <FormControl sx={{minWidth: 300}}>
                 <InputLabel id="demo-simple-select-label">Textbaustein</InputLabel>
                 <Select
-                    label="Textbaustein"
+                    label="Content"
+                    onChange={handleChange}
+                    value={content}
                 >
                     {textModules.map(textmodule => (
-                        <div key={textmodule.id}>
-                            <MenuItem value={textmodule.id}>{textmodule.name}</MenuItem>
-                        </div>
+                        <MenuItem key={textmodule.id} value={textmodule.id}>{textmodule.name}</MenuItem>
                     ))}
                 </Select>
             </FormControl>
-        </div>
+        </Box>
     );
 };
 
