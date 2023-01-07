@@ -38,7 +38,8 @@ function PostTextModule() {
                 flexDirection: 'column',
                 padding: '30px',
                 minWidth: 1000,
-                borderRadius: '20px'
+                borderRadius: '20px',
+                marginTop: '100px'
             }}>
                 <Typography sx={{fontSize: 'large', fontWeight: 'bold', marginBottom: '20px'}}>Textbaustein</Typography>
                 <TextField variant="outlined" label="Name" size="small" sx={{marginBottom: '20px'}} value={name}

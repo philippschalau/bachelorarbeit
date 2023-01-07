@@ -19,6 +19,7 @@ model UserData {
     street      String
     city        String
     zip         String
+    salutation  String
 }
 
 model TextModule {

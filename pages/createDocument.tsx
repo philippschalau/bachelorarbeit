@@ -34,19 +34,51 @@ function CreateDocument() {
         fetchData();
     }, []);
 
-    var dd = {
+    const currentDate = new Date();
+    const germanDate = currentDate.toLocaleDateString('de-DE', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric'
+    });
+    console.log(germanDate)
+
+
+    var asdas = {
         content: [
-            {text: 'HEHEHE'},
+            {text: 'Philipp Schalau\nBodo Uhse Straße 7\n12619 Berlin'},
+            {text: 'Berlin, ' + germanDate, alignment: 'right'},
             {text: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   \n' +
                     '\n' +
                     'Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,'},
         ]
     }
 
+    var documentDefinition = {
+        content: [
+            {
+                columns: [
+                    {text: 'Philipp Schalau\nBodo Uhse Straße 7\n12619 Berlin', margin: [0, 0, 0, 100]},
+                    {
+                        stack: [
+                            {text: 'Berlin, ' + germanDate, alignment: 'right'}
+                        ],
+                    }
+                ]
+            },
+            {text: 'Hier kommt eine Überschrift hin', margin: [0, 0, 0, 20]},
+            {text: 'Anrede,'},
+            {text: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   \n' +
+                    '\n' +
+                    'Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,', margin: [0, 0, 0, 20]},
+            {text: 'Mit freundlichen Grüßen,\nAbsender'},
+        ]
+    };
+
+
     const [url, setUrl] = useState('')
 
     const createPdf = () => {
-        const pdfGenerator = pdfMake.createPdf(dd);
+        const pdfGenerator = pdfMake.createPdf(documentDefinition);
         pdfGenerator.getBlob((blob) => {
             const url = URL.createObjectURL(blob)
             setUrl(url)
