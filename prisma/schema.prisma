@@ -25,5 +25,6 @@ model UserData {
 model TextModule {
     id          String      @id @default(uuid())
     name        String      @unique
+    subject     String
     content     String
 }

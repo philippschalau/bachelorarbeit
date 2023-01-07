@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 export type TextModule = {
     id: string;
     name: string;
+    subject: string;
     content: string;
 
 };

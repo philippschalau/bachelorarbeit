@@ -43,6 +43,8 @@ function PostUserData() {
         setStreet('');
         setCity('');
         setZip('');
+        setSalutation('');
+
     }
 
     return (
@@ -54,25 +56,26 @@ function PostUserData() {
                 padding: '30px',
                 minWidth: 600,
                 borderRadius: '20px',
-                marginTop: '100px'
+                marginTop: '100px',
+                height: '600px'
             }}>
                 <Typography
                     sx={{fontSize: 'large', fontWeight: 'bold', marginBottom: '20px'}}>Kundendaten</Typography>
                 <FormControl>
-                <InputLabel id="demo-simple-select-label">Anrede</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={salutation}
-                    onChange={(e) => setSalutation(e.target.value)}
-                    variant="outlined"
-                    size="small"
-                    sx={{marginBottom: '20px'}}
-                    label="Anrede"
-                >
-                    <MenuItem value={'Herr'}>Herr</MenuItem>
-                    <MenuItem value={'Frau'}>Frau</MenuItem>
-                </Select>
+                    <InputLabel id="demo-simple-select-label">Anrede</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={salutation}
+                        onChange={(e) => setSalutation(e.target.value)}
+                        variant="outlined"
+                        size="small"
+                        sx={{marginBottom: '20px'}}
+                        label="Anrede"
+                    >
+                        <MenuItem value={'Herr'}>Herr</MenuItem>
+                        <MenuItem value={'Frau'}>Frau</MenuItem>
+                    </Select>
                 </FormControl>
                 <TextField variant="outlined" label="Vorname" size="small" sx={{marginBottom: '20px'}} value={firstname}
                            onChange={(e) => setFirstname(e.target.value)}></TextField>

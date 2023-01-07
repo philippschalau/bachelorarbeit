@@ -1,63 +1,43 @@
 import Header from './components/Header'
 import UserDataList from "./components/UserDataList";
-import {UserData} from "./api/userdata";
-import {TextModule} from "./api/textmodule";
-import {useEffect, useState} from "react";
-import axios from "axios";
+import {useState} from "react";
 import TextModuleList from "./components/TextModuleList";
 import {Box, Button, Divider, Drawer, List, Toolbar} from "@mui/material";
 import pdfMake from "pdfmake/build/pdfmake"
 import pdfFonts from "pdfmake/build/vfs_fonts"
 
+
 pdfMake.vfs = pdfFonts.pdfMake.vfs
 
 
-
-
-function CreateDocument() {
-    const [userData, setUserData] = useState<UserData[]>([]);
-    const [textModule, setTextModule] = useState<TextModule[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const res = await axios.get('http://localhost:3000/api/userdata');
-            setUserData(res.data);
-        };
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const res = await axios.get('http://localhost:3000/api/textmodule');
-            setTextModule(res.data);
-        };
-        fetchData();
-    }, []);
-
+const CreateDocument = () => {
     const currentDate = new Date();
     const germanDate = currentDate.toLocaleDateString('de-DE', {
         day: 'numeric',
         month: 'numeric',
         year: 'numeric'
     });
-    console.log(germanDate)
 
 
-    var asdas = {
-        content: [
-            {text: 'Philipp Schalau\nBodo Uhse Straße 7\n12619 Berlin'},
-            {text: 'Berlin, ' + germanDate, alignment: 'right'},
-            {text: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   \n' +
-                    '\n' +
-                    'Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,'},
-        ]
-    }
 
-    var documentDefinition = {
+
+    const [selectedContent, setSelectedContent] = useState<string>('');
+    const [selectedUser, setSelectedUser] = useState<string>('')
+    const handleContentChange = (content: string) => {
+        setSelectedContent(content);
+    };
+    const handleUserChange = (content: string) => {
+        setSelectedUser(content);
+    };
+
+    // @ts-ignore
+    const greeting = selectedUser.salutation == 'Herr' ? 'Sehr geehrter Herr ' + selectedUser.lastname + ',' : 'Sehr geehrte Frau' + selectedUser.lastname +','
+
+    const documentDefinition = {
         content: [
             {
                 columns: [
-                    {text: 'Philipp Schalau\nBodo Uhse Straße 7\n12619 Berlin', margin: [0, 0, 0, 100]},
+                    {text: selectedUser.firstname + " " + selectedUser.lastname + "\n" + selectedUser.street + "\n" + selectedUser.zip + " " + selectedUser.city, margin: [0, 0, 0, 100]},
                     {
                         stack: [
                             {text: 'Berlin, ' + germanDate, alignment: 'right'}
@@ -65,19 +45,22 @@ function CreateDocument() {
                     }
                 ]
             },
-            {text: 'Hier kommt eine Überschrift hin', margin: [0, 0, 0, 20]},
-            {text: 'Anrede,'},
-            {text: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   \n' +
-                    '\n' +
-                    'Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,', margin: [0, 0, 0, 20]},
-            {text: 'Mit freundlichen Grüßen,\nAbsender'},
+            {text: selectedContent.subject, margin: [0, 0, 0, 30]},
+            {text: greeting, margin: [0, 0, 0, 10]},
+            {
+                text: selectedContent.content,
+                margin: [0, 0, 0, 20]
+            },
+            {text: 'Dieses Schreiben trägt weder Unterschrift noch Siegel, da es maschinell erstellt wurde.'},
         ]
     };
 
 
     const [url, setUrl] = useState('')
 
+
     const createPdf = () => {
+        // @ts-ignore
         const pdfGenerator = pdfMake.createPdf(documentDefinition);
         pdfGenerator.getBlob((blob) => {
             const url = URL.createObjectURL(blob)
@@ -106,9 +89,14 @@ function CreateDocument() {
                     <Divider/>
                     <List>
                         <Box
-                            sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', margin: '30px'}}>
-                            <UserDataList userData={userData}/>
-                            <TextModuleList textModules={textModule}/>
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'space-evenly',
+                                margin: '30px'
+                            }}>
+                            <UserDataList onUserChange={handleUserChange}/>
+                            <TextModuleList onContentChange={handleContentChange}/>
                         </Box>
                     </List>
                     <Button onClick={createPdf} disableRipple={true} sx={{
@@ -118,7 +106,7 @@ function CreateDocument() {
                     }}>Generate PDF</Button>
                 </Drawer>
             </Box>
-            <Box component="main" sx={{marginLeft: '800px', marginTop: '100px'}} >
+            <Box component="main" sx={{marginLeft: '800px', marginTop: '100px'}}>
                 <iframe style={{width: '210mm', height: '297mm'}} src={url}></iframe>
             </Box>
         </Box>

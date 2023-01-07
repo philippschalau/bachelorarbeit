@@ -11,6 +11,7 @@ export type UserData = {
     street: string;
     city: string;
     zip: string;
+    salutation: string;
 };
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

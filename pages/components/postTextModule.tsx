@@ -5,11 +5,13 @@ import axios from "axios";
 
 function PostTextModule() {
     const [name, setName] = useState<string>('');
+    const [subject, setSubject] = useState<string>('');
     const [content, setContent] = useState<string>('');
 
     function postTextModule() {
         const data = {
             name: name,
+            subject: subject,
             content: content,
         };
         const json = JSON.stringify(data);
@@ -29,6 +31,7 @@ function PostTextModule() {
             });
         setName('');
         setContent('');
+        setSubject('');
     }
 
     return (
@@ -39,12 +42,16 @@ function PostTextModule() {
                 padding: '30px',
                 minWidth: 1000,
                 borderRadius: '20px',
-                marginTop: '100px'
+                marginTop: '100px',
+                height: '600px'
             }}>
                 <Typography sx={{fontSize: 'large', fontWeight: 'bold', marginBottom: '20px'}}>Textbaustein</Typography>
                 <TextField variant="outlined" label="Name" size="small" sx={{marginBottom: '20px'}} value={name}
                            onChange={(e) => setName(e.target.value)}></TextField>
-                <TextField variant="outlined" label="Text" rows={10} multiline
+                <TextField variant="outlined" label="Überschrift" size="small" sx={{marginBottom: '20px'}}
+                           value={subject}
+                           onChange={(e) => setSubject(e.target.value)}></TextField>
+                <TextField variant="outlined" label="Text" rows={12} multiline
                            sx={{marginBottom: '37px'}} value={content}
                            onChange={(e) => setContent(e.target.value)}></TextField>
                 <Button variant="contained" sx={{
