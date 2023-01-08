@@ -27,40 +27,40 @@ const Users = [
 
 const Grades = [
     {
-        id: '8e3399e6-1d94-11ec-9621-0242ac130002',
+        id: '1e3399e6-1d94-11ec-9621-0242ac130002',
         module: 'Mathematik',
         grade: '3,0',
         userDataId: 'f1bdf45e-1b1c-11ec-9621-0242ac130002',
 
     },
     {
-        id: '9197dea8-1d94-11ec-9621-0242ac130002',
+        id: '2197dea8-1d94-11ec-9621-0242ac130002',
         module: 'Datenbanktechnologien',
         grade: '1,0',
         userDataId: 'f1bdf45e-1b1c-11ec-9621-0242ac130002',
     },
     {
-        id: '8e3399e6-1d94-11ec-9621-0242ac130002',
+        id: '3e3399e6-1d94-11ec-9621-0242ac130002',
         module: 'Einführung in die Wirtschaftsinformatik',
         grade: '1,3',
         userDataId: 'f1bdf45e-1b1c-11ec-9621-0242ac130002',
 
     },
     {
-        id: '9197dea8-1d94-11ec-9621-0242ac130002',
+        id: '4197dea8-1d94-11ec-9621-0242ac130002',
         module: 'Unternehmenssoftware',
         grade: '2,7',
         userDataId: '9371f314-1c93-11ec-9621-0242ac130002',
     },
     {
-        id: '8e3399e6-1d94-11ec-9621-0242ac130002',
+        id: '5e3399e6-1d94-11ec-9621-0242ac130002',
         module: 'Rechnernetze',
         grade: '2,3',
         userDataId: '9371f314-1c93-11ec-9621-0242ac130002',
 
     },
     {
-        id: '9197dea8-1d94-11ec-9621-0242ac130002',
+        id: '6197dea8-1d94-11ec-9621-0242ac130002',
         module: 'Webtechnologien',
         grade: '3,3',
         userDataId: '9371f314-1c93-11ec-9621-0242ac130002',

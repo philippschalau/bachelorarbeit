@@ -5,6 +5,8 @@ import TextModuleList from "./components/TextModuleList";
 import {Box, Button, Divider, Drawer, List, Toolbar} from "@mui/material";
 import pdfMake from "pdfmake/build/pdfmake"
 import pdfFonts from "pdfmake/build/vfs_fonts"
+import {Grade, UserData} from "./api/userdata";
+import {TextModule} from "./api/textmodule";
 
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs
@@ -28,15 +30,21 @@ const CreateDocument = () => {
         setSelectedUser(content);
     };
 
+    const user = new Object(selectedUser) as UserData
+    const content = new Object(selectedContent) as TextModule
+    let grades = user.grades
+
+
     // @ts-ignore
-    const greeting = selectedUser.salutation == 'Herr' ? 'Sehr geehrter Herr ' + selectedUser.lastname + ',' : 'Sehr geehrte Frau' + selectedUser.lastname + ','
+    const greeting = user.salutation == 'Herr' ? 'Sehr geehrter Herr ' + selectedUser.lastname + ',' : 'Sehr geehrte Frau ' + selectedUser.lastname + ','
+
 
     const freeText = {
         content: [
             {
                 columns: [
                     {
-                        text: selectedUser.firstname + " " + selectedUser.lastname + "\n" + selectedUser.street + "\n" + selectedUser.zip + " " + selectedUser.city,
+                        text: user.firstname + " " + user.lastname + "\n" + user.street + "\n" + user.zip + " " + user.city,
                         margin: [0, 0, 0, 100]
                     },
                     {
@@ -46,51 +54,62 @@ const CreateDocument = () => {
                     }
                 ]
             },
-            {text: selectedContent.subject, margin: [0, 0, 0, 30]},
+            {text: content.subject, margin: [0, 0, 0, 30]},
             {text: greeting, margin: [0, 0, 0, 10]},
             {
-                text: selectedContent.content,
+                text: content.content,
                 margin: [0, 0, 0, 20]
             },
             {text: 'Dieses Schreiben trägt weder Unterschrift noch Siegel, da es maschinell erstellt wurde.'},
         ]
     };
 
-    const table = {
-        content: [
-            {
-                columns: [
+    function createTable() {
+        if (grades) {
+            const leistungsnachweis = {
+                content: [
                     {
-                        text: selectedUser.firstname + " " + selectedUser.lastname + "\n" + selectedUser.street + "\n" + selectedUser.zip + " " + selectedUser.city,
-                        margin: [0, 0, 0, 100]
+                        columns: [
+                            {
+                                text: user.firstname + " " + user.lastname + "\n" + user.street + "\n" + user.zip + " " + user.city,
+                                margin: [0, 0, 0, 100]
+                            },
+                            {
+                                stack: [
+                                    {text: 'Berlin, ' + germanDate, alignment: 'right'}
+                                ],
+                            }
+                        ]
+                    },
+                    {text: content.content, margin: [0, 0, 0, 30], bold: true},
+                    {text: greeting, margin: [0, 0, 0, 10]},
+                    {
+                        text: 'In nachfolgend aufgeführten Modulen wurden Prüfungsleistungen erzielt:',
+                        margin: [0, 0, 0, 20]
                     },
                     {
-                        stack: [
-                            {text: 'Berlin, ' + germanDate, alignment: 'right'}
-                        ],
-                    }
+                        table: {
+                            headerRows: 1,
+                            widths: ['*', '*'],
+
+                            body: [
+                                [{text: 'Modul', bold: true}, {text: 'Note', bold: true}],
+                                [grades[0].module, grades[0].grade],
+                                [grades[1].module, grades[1].grade],
+                                [grades[2].module, grades[2].grade]
+                            ]
+                        }
+                    },
+                    {
+                        text: 'Dieses Schreiben trägt weder Unterschrift noch Siegel, da es maschinell erstellt wurde.',
+                        margin: [0, 30, 0, 0]
+                    },
                 ]
-            },
-            {text: selectedContent.subject, margin: [0, 0, 0, 30], bold: true},
-            {text: greeting, margin: [0, 0, 0, 10]},
-            {
-                text: 'In nachfolgend aufgeführten Modulen wurden Prüfungsleistungen erzielt:',
-                margin: [0, 0, 0, 20]
-            },
-            {
-                table: {
-                    body: [
-                        ['Modul', 'Bewertung', 'Versuche'],
-                        ['BWL', 'Programmierung', '2']
-                    ]
-                }
-            },
-            {
-                text: 'Dieses Schreiben trägt weder Unterschrift noch Siegel, da es maschinell erstellt wurde.',
-                margin: [0, 30, 0, 0]
-            },
-        ]
-    };
+            };
+            return leistungsnachweis;
+        }
+
+    }
 
 
     const [url, setUrl] = useState('')
@@ -98,7 +117,7 @@ const CreateDocument = () => {
 
     const createPdf = () => {
         // @ts-ignore
-        const pdfGenerator = pdfMake.createPdf(selectedContent.name == 'Leistungsnachweis' ? table : freeText);
+        const pdfGenerator = pdfMake.createPdf(content.name == 'Leistungsnachweis' ? createTable() : freeText);
         pdfGenerator.getBlob((blob) => {
             const url = URL.createObjectURL(blob)
             setUrl(url)
