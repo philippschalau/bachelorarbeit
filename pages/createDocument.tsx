@@ -19,8 +19,6 @@ const CreateDocument = () => {
     });
 
 
-
-
     const [selectedContent, setSelectedContent] = useState<string>('');
     const [selectedUser, setSelectedUser] = useState<string>('')
     const handleContentChange = (content: string) => {
@@ -31,13 +29,16 @@ const CreateDocument = () => {
     };
 
     // @ts-ignore
-    const greeting = selectedUser.salutation == 'Herr' ? 'Sehr geehrter Herr ' + selectedUser.lastname + ',' : 'Sehr geehrte Frau' + selectedUser.lastname +','
+    const greeting = selectedUser.salutation == 'Herr' ? 'Sehr geehrter Herr ' + selectedUser.lastname + ',' : 'Sehr geehrte Frau' + selectedUser.lastname + ','
 
-    const documentDefinition = {
+    const freeText = {
         content: [
             {
                 columns: [
-                    {text: selectedUser.firstname + " " + selectedUser.lastname + "\n" + selectedUser.street + "\n" + selectedUser.zip + " " + selectedUser.city, margin: [0, 0, 0, 100]},
+                    {
+                        text: selectedUser.firstname + " " + selectedUser.lastname + "\n" + selectedUser.street + "\n" + selectedUser.zip + " " + selectedUser.city,
+                        margin: [0, 0, 0, 100]
+                    },
                     {
                         stack: [
                             {text: 'Berlin, ' + germanDate, alignment: 'right'}
@@ -55,13 +56,49 @@ const CreateDocument = () => {
         ]
     };
 
+    const table = {
+        content: [
+            {
+                columns: [
+                    {
+                        text: selectedUser.firstname + " " + selectedUser.lastname + "\n" + selectedUser.street + "\n" + selectedUser.zip + " " + selectedUser.city,
+                        margin: [0, 0, 0, 100]
+                    },
+                    {
+                        stack: [
+                            {text: 'Berlin, ' + germanDate, alignment: 'right'}
+                        ],
+                    }
+                ]
+            },
+            {text: selectedContent.subject, margin: [0, 0, 0, 30], bold: true},
+            {text: greeting, margin: [0, 0, 0, 10]},
+            {
+                text: 'In nachfolgend aufgeführten Modulen wurden Prüfungsleistungen erzielt:',
+                margin: [0, 0, 0, 20]
+            },
+            {
+                table: {
+                    body: [
+                        ['Modul', 'Bewertung', 'Versuche'],
+                        ['BWL', 'Programmierung', '2']
+                    ]
+                }
+            },
+            {
+                text: 'Dieses Schreiben trägt weder Unterschrift noch Siegel, da es maschinell erstellt wurde.',
+                margin: [0, 30, 0, 0]
+            },
+        ]
+    };
+
 
     const [url, setUrl] = useState('')
 
 
     const createPdf = () => {
         // @ts-ignore
-        const pdfGenerator = pdfMake.createPdf(documentDefinition);
+        const pdfGenerator = pdfMake.createPdf(selectedContent.name == 'Leistungsnachweis' ? table : freeText);
         pdfGenerator.getBlob((blob) => {
             const url = URL.createObjectURL(blob)
             setUrl(url)

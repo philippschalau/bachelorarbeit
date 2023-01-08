@@ -11,20 +11,29 @@ datasource db {
 }
 
 model UserData {
-
-    id          String      @id @default(uuid())
-    email       String      @unique
-    firstname   String
-    lastname    String
-    street      String
-    city        String
-    zip         String
-    salutation  String
+  id         String  @id @default(uuid())
+  email      String  @unique
+  firstname  String
+  lastname   String
+  street     String
+  city       String
+  zip        String
+  salutation String
+  grades     Grade[]
 }
 
 model TextModule {
-    id          String      @id @default(uuid())
-    name        String      @unique
-    subject     String
-    content     String
+  id      String @id @default(uuid())
+  name    String @unique
+  subject String
+  content String
 }
+
+model Grade {
+  id         String   @id @default(uuid())
+  module     String
+  grade      String
+  user       UserData @relation(fields: [userDataId], references: [id])
+  userDataId String
+}
+
