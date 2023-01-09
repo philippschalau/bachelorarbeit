@@ -5,7 +5,7 @@ import TextModuleList from "./components/TextModuleList";
 import {Box, Button, Divider, Drawer, List, Toolbar} from "@mui/material";
 import pdfMake from "pdfmake/build/pdfmake"
 import pdfFonts from "pdfmake/build/vfs_fonts"
-import {Grade, UserData} from "./api/userdata";
+import {UserData} from "./api/userdata";
 import {TextModule} from "./api/textmodule";
 
 
@@ -54,7 +54,7 @@ const CreateDocument = () => {
                     }
                 ]
             },
-            {text: content.subject, margin: [0, 0, 0, 30]},
+            {text: content.subject, bold: true, margin: [0, 0, 0, 30]},
             {text: greeting, margin: [0, 0, 0, 10]},
             {
                 text: content.content,
@@ -64,9 +64,9 @@ const CreateDocument = () => {
         ]
     };
 
-    function createTable() {
+    function createLeistungsnachweis() {
         if (grades) {
-            const leistungsnachweis = {
+            return {
                 content: [
                     {
                         columns: [
@@ -81,7 +81,7 @@ const CreateDocument = () => {
                             }
                         ]
                     },
-                    {text: content.content, margin: [0, 0, 0, 30], bold: true},
+                    {text: content.subject, margin: [0, 0, 0, 30], bold: true},
                     {text: greeting, margin: [0, 0, 0, 10]},
                     {
                         text: 'In nachfolgend aufgeführten Modulen wurden Prüfungsleistungen erzielt:',
@@ -106,9 +106,7 @@ const CreateDocument = () => {
                     },
                 ]
             };
-            return leistungsnachweis;
         }
-
     }
 
 
@@ -117,7 +115,7 @@ const CreateDocument = () => {
 
     const createPdf = () => {
         // @ts-ignore
-        const pdfGenerator = pdfMake.createPdf(content.name == 'Leistungsnachweis' ? createTable() : freeText);
+        const pdfGenerator = pdfMake.createPdf(content.name == 'Leistungsnachweis' ? createLeistungsnachweis() : freeText);
         pdfGenerator.getBlob((blob) => {
             const url = URL.createObjectURL(blob)
             setUrl(url)
