@@ -6,22 +6,22 @@ const Users = [
     {
         id: 'f1bdf45e-1b1c-11ec-9621-0242ac130002',
         email: 'user1@example.com',
-        firstname: 'User',
-        lastname: 'One',
+        firstname: 'Max',
+        lastname: 'Mustermann',
         street: '123 Main St',
         city: 'New York',
         zip: '10001',
-        salutation: 'Mr.',
+        salutation: 'Herr',
     },
     {
         id: '9371f314-1c93-11ec-9621-0242ac130002',
         email: 'user2@example.com',
-        firstname: 'User',
-        lastname: 'Two',
+        firstname: 'Maxine',
+        lastname: 'Musterfrau',
         street: '456 Main St',
         city: 'New York',
         zip: '10002',
-        salutation: 'Mrs.',
+        salutation: 'Frau',
     },
 ];
 
@@ -67,11 +67,12 @@ const Grades = [
     }
 ];
 
+
 async function runSeeders() {
     await Promise.all(
         Users.map(async (user) =>
             prisma.userData.upsert({
-                where : { id: user.id },
+                where: {id: user.id},
                 update: {},
                 create: user,
             })
@@ -81,12 +82,21 @@ async function runSeeders() {
     await Promise.all(
         Grades.map(async (grades) =>
             prisma.grade.upsert({
-                where: { id: grades.id },
+                where: {id: grades.id},
                 update: {},
                 create: grades,
             })
         )
     );
+
+
+    await prisma.textModule.create({
+        data: {
+            name: 'Leistungsnachweis',
+            subject: 'Ihr angeforderter Leistungsnachweis',
+            content: ''
+        },
+    })
 }
 
 
